@@ -1,4 +1,3 @@
-```markdown
 # 0x00. Personal Data
 
 ## Backend
@@ -16,10 +15,10 @@
 
 ## Resources
 Read or watch:
- [What Is PII, non-PII, and Personal Data?](#)
- [Logging Documentation](#)
- [bcrypt Package](#)
- [Logging to Files, Setting Levels, and Formatting](#)
+ [What Is PII, non-PII, and Personal Data?](https://piwik.pro/blog/what-is-pii-personal-data/)
+ [Logging Documentation](https://docs.python.org/3/library/logging.html)
+ [bcrypt Package](https://github.com/pyca/bcrypt/)
+ [Logging to Files, Setting Levels, and Formatting](https://www.youtube.com/watch?v=-ARI4Cz-awo)
 
 ## Learning Objectives
 At the end of this project, you are expected to be able to explain to anyone, without the help of Google:
