@@ -18,6 +18,7 @@ that returns None - request will be the Flask request object
 """
 from typing import List, TypeVar
 from flask import request
+from os import getenv
 
 
 class Auth:
@@ -46,3 +47,11 @@ class Auth:
         """Current user method
         """
         return None
+
+    def session_cookie(self, request=None):
+        """Session cookie method
+        """
+        if request is None:
+            return None
+        cookie_name = getenv('SESSION_NAME')
+        return request.cookies.get(cookie_name)
