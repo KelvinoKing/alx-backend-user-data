@@ -28,7 +28,7 @@ method from User
 You must set the cookie to the response - you must use the value of the
 environment variable SESSION_NAME as cookie name - tip
 """
-from flask import jsonify, request
+from flask import jsonify, request, abort
 from typing import Tuple
 from api.v1.views import app_views
 from models.user import User
@@ -57,3 +57,11 @@ def login() -> Tuple[str, int]:
         data.set_cookie(getenv('SESSION_NAME'), sessionID)
         return data
     return jsonify({"error": "wrong password"}), 401
+
+@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def logout() -> str:
+    """Logs out a user"""
+    from api.v1.app import auth
+    if auth.destroy_session(request):
+        return jsonify({}), 200
+    abort(404)
