@@ -30,6 +30,7 @@ elif os.getenv('AUTH_TYPE') == 'basic_auth':
 def before_request():
     """Before request
     """
+    request.current_user = auth.current_user(request)
     if auth is None:
         return
     if auth.require_auth(request.path, ['/api/v1/status/',

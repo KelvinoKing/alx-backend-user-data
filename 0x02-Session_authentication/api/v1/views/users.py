@@ -18,15 +18,22 @@ def view_all_users() -> str:
 
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def view_one_user(user_id: str = None) -> str:
-    """ GET /api/v1/users/:id
-    Path parameter:
-      - User ID
-    Return:
-      - User object JSON represented
-      - 404 if the User ID doesn't exist
+    """
+    Update method for the route GET /api/v1/users/<user_id>
+    in api/v1/views/users.py:
+    If <user_id> is equal to me and request.current_user is None:
+    abort(404)
+    If <user_id> is equal to me and request.current_user is not None:
+    return the authenticated User in a JSON response (like a normal
+    case of GET /api/v1/users/<user_id> where <user_id> is a valid User ID)
+    Otherwise, keep the same behavior
     """
     if user_id is None:
         abort(404)
+    if user_id == 'me' and request.current_user is None:
+        abort(404)
+    if user_id == 'me' and request.current_user is not None:
+        return jsonify(request.current_user.to_json())
     user = User.get(user_id)
     if user is None:
         abort(404)
@@ -120,3 +127,12 @@ def update_user(user_id: str = None) -> str:
         user.last_name = rj.get('last_name')
     user.save()
     return jsonify(user.to_json()), 200
+
+
+@app_views.route('/users/me', methods=['GET'], strict_slashes=False)
+def get_me() -> str:
+    """GET /users/me to retrieve the authenticated User object.
+    """
+    if request.current_user is None:
+        abort(404)
+    return jsonify(request.current_user.to_json())
