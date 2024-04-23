@@ -57,7 +57,7 @@ class Auth:
             return False
         except ValueError:
             return False
-        
+
     def create_session(self, email: str) -> str:
         """Create a session for the user
         """
