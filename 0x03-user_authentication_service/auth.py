@@ -57,3 +57,16 @@ class Auth:
             return False
         except ValueError:
             return False
+        
+    def create_session(self, email: str) -> str:
+        """Create a session for the user
+        """
+        session_id = None
+        try:
+            user = self._db.find_user_by(email=email)
+            session_id = _generate_uuid()
+            user.session_id = session_id
+            self._db._session.commit()
+        except NoResultFound:
+            return None
+        return session_id
