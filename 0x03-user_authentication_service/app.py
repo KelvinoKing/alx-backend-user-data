@@ -70,11 +70,10 @@ def login() -> str:
     password = request.form.get('password')
     if not Auth.valid_login(email, password):
         abort(401)
-    else:
-        session_id = Auth.create_session(email)
-        response = jsonify({"email": email, "message": "logged in"})
-        response.set_cookie("session_id", session_id)
-        return response
+    session_id = Auth.create_session(email)
+    response = jsonify({"email": email, "message": "logged in"})
+    response.set_cookie("session_id", session_id)
+    return response
 
 
 if __name__ == "__main__":
