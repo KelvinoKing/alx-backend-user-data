@@ -56,15 +56,7 @@ def users() -> str:
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login() -> str:
     """
-    In this task, you will implement a login function to
-    respond to the POST /sessions route.
-    The request is expected to contain form data with "email"
-    and a "password" fields.
-    If the login information is incorrect, use flask.abort
-    to respond with a 401 HTTP status.
-    Otherwise, create a new session for the user, store it the
-    session ID as a cookie with key "session_id" on the response
-    and return a JSON payload of the form
+    POST /sessions route that expects two form data fields
     """
     email = request.form.get('email')
     password = request.form.get('password')
