@@ -68,12 +68,12 @@ def login() -> str:
     return response
 
 
-@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+@app.route("/sessions", methods=["DELETE"], strict_slashes=False)
 def logout() -> str:
     """
     DELETE /sessions route that expects a session_id
     """
-    session_id = request.cookies.get('session_id')
+    session_id = request.cookies.get("session_id")
     user = Auth.get_user_from_session_id(session_id)
     if user is None:
         abort(403)
