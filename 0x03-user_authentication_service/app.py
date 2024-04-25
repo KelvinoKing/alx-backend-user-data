@@ -3,10 +3,11 @@
 Create a Flask app that has a single GET route ("/")
 and use flask.jsonify to return a JSON payload of the form:
 """
-from flask import Flask, jsonify, abort, redirect
+from flask import Flask, jsonify, abort, redirect, Response
 from auth import Auth
 from flask import request
 from sqlalchemy.orm.exc import NoResultFound
+from typing import List, Dict, Union, Any, Tuple
 
 Auth = Auth()
 app = Flask(__name__)
@@ -57,7 +58,7 @@ def users() -> str:
 
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
-def login() -> str:
+def login() -> Response:
     """
     POST /sessions route that expects two form data fields
     """
