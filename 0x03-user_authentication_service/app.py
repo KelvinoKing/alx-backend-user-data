@@ -12,7 +12,6 @@ from typing import List, Dict, Union, Any, Tuple
 Auth = Auth()
 app = Flask(__name__)
 app.secret_key = "holberton"
-# Time for a session to live
 app.config.update(SESSION_COOKIE_MAX_AGE=60)
 
 
@@ -108,6 +107,22 @@ def get_reset_password_token() -> str:
         abort(403)
     token = Auth.get_reset_password_token(email)
     return jsonify({"email": email, "reset_token": token}), 200
+
+
+@app.route("/reset_password", methods=["PUT"], strict_slashes=False)
+def update_password() -> str:
+    """
+    PUT /reset_password route that expects an email, a reset_token,
+    and a new password
+    """
+    email = request.form.get("email")
+    token = request.form.get("reset_token")
+    password = request.form.get("new_password")
+    try:
+        Auth.update_password(token, password)
+    except ValueError:
+        abort(403)
+    return jsonify({"email": email, "message": "Password updated"}), 200
 
 
 if __name__ == "__main__":
