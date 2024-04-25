@@ -3,7 +3,7 @@
 Create a Flask app that has a single GET route ("/")
 and use flask.jsonify to return a JSON payload of the form:
 """
-from flask import Flask, jsonify, abort
+from flask import Flask, jsonify, abort, redirect
 from auth import Auth
 from flask import request
 from sqlalchemy.orm.exc import NoResultFound
@@ -66,6 +66,19 @@ def login() -> str:
     response = jsonify({"email": email, "message": "logged in"})
     response.set_cookie("session_id", session_id)
     return response
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout() -> str:
+    """
+    DELETE /sessions route that expects a session_id
+    """
+    session_id = request.cookies.get('session_id')
+    user = Auth.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+    Auth.destroy_session(user.id)
+    return redirect('/')
 
 
 if __name__ == "__main__":
