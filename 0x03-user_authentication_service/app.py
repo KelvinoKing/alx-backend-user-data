@@ -58,7 +58,7 @@ def users() -> str:
 
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
-def login() -> Response:
+def login() -> str:
     """
     POST /sessions route that expects two form data fields
     """
