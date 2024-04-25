@@ -12,7 +12,7 @@ Auth = Auth()
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'], strict_slashes=False)
+@app.route("/", methods=["GET"], strict_slashes=False)
 def index() -> str:
     """GET route ("/") that returns a JSON payload
     """
@@ -39,7 +39,7 @@ DB is a lower abstraction that is proxied by Auth.
 """
 
 
-@app.route('/users', methods=['POST'], strict_slashes=False)
+@app.route("/users", methods=["POST"], strict_slashes=False)
 def users() -> str:
     """POST /users route that expects two form data fields
     """
@@ -53,13 +53,13 @@ def users() -> str:
         return jsonify({"message": "email already registered"}), 400
 
 
-@app.route('/sessions', methods=['POST'], strict_slashes=False)
+@app.route("/sessions", methods=["POST"], strict_slashes=False)
 def login() -> str:
     """
     POST /sessions route that expects two form data fields
     """
-    email = request.form.get('email')
-    password = request.form.get('password')
+    email = request.form.get("email")
+    password = request.form.get("password")
     if not Auth.valid_login(email, password):
         abort(401)
     session_id = Auth.create_session(email)
