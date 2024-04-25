@@ -10,6 +10,9 @@ from sqlalchemy.orm.exc import NoResultFound
 
 Auth = Auth()
 app = Flask(__name__)
+app.secret_key = "holberton"
+# Time for a session to live
+app.config.update(SESSION_COOKIE_MAX_AGE=60)
 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
@@ -81,6 +84,20 @@ def logout() -> str:
         abort(403)
     Auth.destroy_session(user.id)
     return redirect('/')
+
+
+@app.route("/profile", methods=["GET"], strict_slashes=False)
+def profile() -> str:
+    """
+    GET /profile route that expects a session_id
+    """
+    session_id = request.cookies.get("session_id")
+    if session_id is None:
+        abort(403)
+    user = Auth.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+    return jsonify({"email": user.email}), 200
 
 
 if __name__ == "__main__":
